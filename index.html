@@ -3,28 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barra laterale sinistra</title>
+    <title>Riproduci Audio</title>
     <style>
+        @font-face {
+            font-family: 'NTLG';
+            src: url('Assets/Font/NTLG.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        
         body {
-            background-color: #000000;
+            background-color: rgba(0, 0, 0, 0.8);
             margin: 0;
             padding: 0;
             height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-
-        .barra-sinistra {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 80px;  /* Larghezza della barra */
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.1);  /* Bianco al 10% di opacità */
-            backdrop-filter: blur(5px);  /* Effetto vetro smerigliato (opzionale) */
-            border-right: 1px solid rgba(255, 255, 255, 0.05);  /* Bordo sottile */
+        
+        #audioButton {
+            padding: 15px 30px;
+            font-size: 18px;
+            font-family: 'NTLG', Arial, sans-serif; /* Prima il font custom, poi fallback */
+            color: white;
+            background-color: #010102;
+            border: 2px solid #484848;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: none;
+            outline: none;
+            position: relative;
+            letter-spacing: 1px; /* Migliora la leggibilità per alcuni font custom */
+        }
+        
+        #audioButton:hover {
+            background-color: #1a1a1a;
+        }
+        
+        #audioButton:active {
+            box-shadow: 0 0 0 2px #0091ff;
         }
     </style>
 </head>
 <body>
-    <div class="barra-sinistra"></div>
+    <button id="audioButton">RIPRODUCI</button>
+
+    <audio id="audioPlayer" src="Assets/Sound/enter.wav"></audio>
+
+    <script>
+        const audioButton = document.getElementById('audioButton');
+        const audioPlayer = document.getElementById('audioPlayer');
+
+        audioButton.addEventListener('click', function() {
+            audioPlayer.currentTime = 0;
+            audioPlayer.play().catch(e => console.log("Errore nella riproduzione:", e));
+        });
+    </script>
 </body>
 </html>
