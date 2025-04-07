@@ -3,132 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meeting Virtuale</title>
+    <title>Pagina con Immagine e Overlay</title>
     <style>
         @font-face {
-            font-family: 'NTLG';
-            src: url('NTLG.woff2') format('woff2');
+            font-family: 'CustomFont';
+            src: url('https://files.catbox.moe/49x5wd.woff2') format('woff2');
             font-display: block;
         }
-        
+
         body {
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: black;
             margin: 0;
             padding: 0;
             height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
+            position: relative;
         }
-        
-        .buttons-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px; /* Spazio verticale tra i bottoni */
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://files.catbox.moe/00wamc.svg');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
         }
-        
-        .meeting-btn {
-            padding: 15px 30px;
-            font-size: 18px;
-            font-family: 'NTLG';
-            color: white;
-            background-color: #010102;
-            border: 2px solid #484848;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: none;
-            outline: none;
-            width: 220px;
-            text-align: center;
+
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 31.5%;
+            background-color: rgba(128, 128, 128, 0.2);
+            z-index: 2;
         }
-        
-        .meeting-btn:hover {
-            background-color: #1a1a1a;
-        }
-        
-        .meeting-btn:active {
-            box-shadow: 0 0 0 2px #0091ff;
-        }
-        
-        ::selection, ::-moz-selection {
-            background: transparent;
+
+        .disclaimer {
+            font-family: 'CustomFont';
+            color: #FFFFFF;
+            font-size: 1.1rem;
+            position: absolute;
+            top: 25px; /* Aumentato da 15px a 25px per spostare più in basso */
+            right: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
     </style>
 </head>
 <body>
-    <div class="buttons-container">
-        <button id="createBtn" class="meeting-btn">Crea Stanza</button>
-        <button id="joinBtn" class="meeting-btn">Unisciti Al Meeting</button>
+    <div class="background-image"></div>
+    <div class="overlay">
+        <div class="disclaimer"><strong>Questo sito non è affiliato con Nintendo</strong></div>
     </div>
-
-    <!-- Audio -->
-    <audio id="clickSound" src="Assets/Sound/enter.wav"></audio>
-    <audio id="hoverSound" src="Assets/Sound/click.wav"></audio>
-    <audio id="joinSound" src="Assets/Sound/join.wav"></audio>
-
-    <script>
-        // Elementi
-        const createBtn = document.getElementById('createBtn');
-        const joinBtn = document.getElementById('joinBtn');
-        const clickSound = document.getElementById('clickSound');
-        const hoverSound = document.getElementById('hoverSound');
-        const joinSound = document.getElementById('joinSound');
-        
-        // Configurazione audio
-        let canPlayHoverSound = true;
-        const hoverCooldown = 300;
-
-        // Disabilita menu contestuale
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-
-        // Funzione per effetti audio hover
-        function setupHoverEffect(button) {
-            button.addEventListener('mouseenter', function() {
-                if(canPlayHoverSound) {
-                    hoverSound.currentTime = 0;
-                    hoverSound.play().catch(e => console.log("Hover sound error:", e));
-                    canPlayHoverSound = false;
-                    setTimeout(() => canPlayHoverSound = true, hoverCooldown);
-                }
-            });
-        }
-
-        // Effetti per Crea Stanza
-        createBtn.addEventListener('click', function() {
-            clickSound.currentTime = 0;
-            clickSound.play().catch(e => console.log("Click sound error:", e));
-            this.style.boxShadow = '0 0 0 2px #0091ff';
-            setTimeout(() => this.style.boxShadow = 'none', 150);
-            
-            // Aggiungi qui la logica per creare una stanza
-        });
-
-        // Effetti per Unisciti Al Meeting
-        joinBtn.addEventListener('click', function() {
-            joinSound.currentTime = 0;
-            joinSound.play().catch(e => console.log("Join sound error:", e));
-            this.style.boxShadow = '0 0 0 2px #0091ff';
-            setTimeout(() => this.style.boxShadow = 'none', 150);
-            
-            // Aggiungi qui la logica per unirsi a una stanza
-        });
-
-        // Applica hover a entrambi i bottoni
-        setupHoverEffect(createBtn);
-        setupHoverEffect(joinBtn);
-
-        // Rimuove outline al focus
-        const buttons = document.querySelectorAll('.meeting-btn');
-        buttons.forEach(btn => {
-            btn.addEventListener('mousedown', function(e) {
-                e.preventDefault();
-            });
-        });
-    </script>
 </body>
 </html>
