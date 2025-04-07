@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crea Stanza</title>
+    <title>Meeting Virtuale</title>
     <style>
         @font-face {
             font-family: 'NTLG';
@@ -24,7 +24,13 @@
             -moz-user-select: none;
         }
         
-        #audioButton {
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Spazio verticale tra i bottoni */
+        }
+        
+        .meeting-btn {
             padding: 15px 30px;
             font-size: 18px;
             font-family: 'NTLG';
@@ -35,14 +41,15 @@
             cursor: pointer;
             transition: none;
             outline: none;
-            position: relative;
+            width: 220px;
+            text-align: center;
         }
         
-        #audioButton:hover {
+        .meeting-btn:hover {
             background-color: #1a1a1a;
         }
         
-        #audioButton:active {
+        .meeting-btn:active {
             box-shadow: 0 0 0 2px #0091ff;
         }
         
@@ -52,49 +59,75 @@
     </style>
 </head>
 <body>
-    <button id="audioButton">Crea Stanza</button>
+    <div class="buttons-container">
+        <button id="createBtn" class="meeting-btn">Crea Stanza</button>
+        <button id="joinBtn" class="meeting-btn">Unisciti Al Meeting</button>
+    </div>
 
-    <!-- Audio per il click -->
+    <!-- Audio -->
     <audio id="clickSound" src="Assets/Sound/enter.wav"></audio>
-    <!-- Audio per l'hover -->
     <audio id="hoverSound" src="Assets/Sound/click.wav"></audio>
+    <audio id="joinSound" src="Assets/Sound/join.wav"></audio>
 
     <script>
-        const audioButton = document.getElementById('audioButton');
+        // Elementi
+        const createBtn = document.getElementById('createBtn');
+        const joinBtn = document.getElementById('joinBtn');
         const clickSound = document.getElementById('clickSound');
         const hoverSound = document.getElementById('hoverSound');
+        const joinSound = document.getElementById('joinSound');
         
+        // Configurazione audio
         let canPlayHoverSound = true;
-        const hoverCooldown = 300; // Cooldown in millisecondi
+        const hoverCooldown = 300;
 
         // Disabilita menu contestuale
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
         });
 
-        // Effetto al click
-        audioButton.addEventListener('click', function() {
+        // Funzione per effetti audio hover
+        function setupHoverEffect(button) {
+            button.addEventListener('mouseenter', function() {
+                if(canPlayHoverSound) {
+                    hoverSound.currentTime = 0;
+                    hoverSound.play().catch(e => console.log("Hover sound error:", e));
+                    canPlayHoverSound = false;
+                    setTimeout(() => canPlayHoverSound = true, hoverCooldown);
+                }
+            });
+        }
+
+        // Effetti per Crea Stanza
+        createBtn.addEventListener('click', function() {
             clickSound.currentTime = 0;
             clickSound.play().catch(e => console.log("Click sound error:", e));
-            
-            // Effetto visivo
             this.style.boxShadow = '0 0 0 2px #0091ff';
             setTimeout(() => this.style.boxShadow = 'none', 150);
+            
+            // Aggiungi qui la logica per creare una stanza
         });
 
-        // Effetto al passaggio del mouse (con cooldown)
-        audioButton.addEventListener('mouseenter', function() {
-            if(canPlayHoverSound) {
-                hoverSound.currentTime = 0;
-                hoverSound.play().catch(e => console.log("Hover sound error:", e));
-                canPlayHoverSound = false;
-                setTimeout(() => canPlayHoverSound = true, hoverCooldown);
-            }
+        // Effetti per Unisciti Al Meeting
+        joinBtn.addEventListener('click', function() {
+            joinSound.currentTime = 0;
+            joinSound.play().catch(e => console.log("Join sound error:", e));
+            this.style.boxShadow = '0 0 0 2px #0091ff';
+            setTimeout(() => this.style.boxShadow = 'none', 150);
+            
+            // Aggiungi qui la logica per unirsi a una stanza
         });
 
-        // Rimuove l'outline blu su focus
-        audioButton.addEventListener('mousedown', function(e) {
-            e.preventDefault();
+        // Applica hover a entrambi i bottoni
+        setupHoverEffect(createBtn);
+        setupHoverEffect(joinBtn);
+
+        // Rimuove outline al focus
+        const buttons = document.querySelectorAll('.meeting-btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+            });
         });
     </script>
 </body>
