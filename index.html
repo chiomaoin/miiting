@@ -8,9 +8,7 @@
         @font-face {
             font-family: 'NTLG';
             src: url('Assets/Font/NTLG.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
+            font-display: block; /* Forza l'attesa del font */
         }
         
         body {
@@ -26,7 +24,7 @@
         #audioButton {
             padding: 15px 30px;
             font-size: 18px;
-            font-family: 'NTLG', Arial, sans-serif; /* Prima il font custom, poi fallback */
+            font-family: 'NTLG'; /* Solo il font custom */
             color: white;
             background-color: #010102;
             border: 2px solid #484848;
@@ -35,7 +33,8 @@
             transition: none;
             outline: none;
             position: relative;
-            letter-spacing: 1px; /* Migliora la leggibilità per alcuni font custom */
+            letter-spacing: 0.5px;
+            text-transform: uppercase; /* Forza maiuscolo */
         }
         
         #audioButton:hover {
@@ -58,7 +57,11 @@
 
         audioButton.addEventListener('click', function() {
             audioPlayer.currentTime = 0;
-            audioPlayer.play().catch(e => console.log("Errore nella riproduzione:", e));
+            audioPlayer.play().catch(e => console.log("Audio error:", e));
+            
+            // Aggiunge classe temporanea per feedback visivo
+            this.classList.add('active-click');
+            setTimeout(() => this.classList.remove('active-click'), 200);
         });
     </script>
 </body>
