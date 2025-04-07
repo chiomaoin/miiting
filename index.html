@@ -19,6 +19,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
         }
         
         #audioButton {
@@ -33,8 +36,6 @@
             transition: none;
             outline: none;
             position: relative;
-            letter-spacing: 0.5px;
-            text-transform: none; /* Testo normale */
         }
         
         #audioButton:hover {
@@ -44,24 +45,56 @@
         #audioButton:active {
             box-shadow: 0 0 0 2px #0091ff;
         }
+        
+        ::selection, ::-moz-selection {
+            background: transparent;
+        }
     </style>
 </head>
 <body>
     <button id="audioButton">Crea Stanza</button>
 
-    <audio id="audioPlayer" src="Assets/Sound/enter.wav"></audio>
+    <!-- Audio per il click -->
+    <audio id="clickSound" src="Assets/Sound/enter.wav"></audio>
+    <!-- Audio per l'hover -->
+    <audio id="hoverSound" src="Assets/Sound/click.wav"></audio>
 
     <script>
         const audioButton = document.getElementById('audioButton');
-        const audioPlayer = document.getElementById('audioPlayer');
+        const clickSound = document.getElementById('clickSound');
+        const hoverSound = document.getElementById('hoverSound');
+        
+        let canPlayHoverSound = true;
+        const hoverCooldown = 300; // Cooldown in millisecondi
 
+        // Disabilita menu contestuale
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Effetto al click
         audioButton.addEventListener('click', function() {
-            audioPlayer.currentTime = 0;
-            audioPlayer.play().catch(e => console.log("Audio error:", e));
+            clickSound.currentTime = 0;
+            clickSound.play().catch(e => console.log("Click sound error:", e));
             
-            // Effetto click temporaneo
+            // Effetto visivo
             this.style.boxShadow = '0 0 0 2px #0091ff';
             setTimeout(() => this.style.boxShadow = 'none', 150);
+        });
+
+        // Effetto al passaggio del mouse (con cooldown)
+        audioButton.addEventListener('mouseenter', function() {
+            if(canPlayHoverSound) {
+                hoverSound.currentTime = 0;
+                hoverSound.play().catch(e => console.log("Hover sound error:", e));
+                canPlayHoverSound = false;
+                setTimeout(() => canPlayHoverSound = true, hoverCooldown);
+            }
+        });
+
+        // Rimuove l'outline blu su focus
+        audioButton.addEventListener('mousedown', function(e) {
+            e.preventDefault();
         });
     </script>
 </body>
