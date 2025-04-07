@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riproduci Audio</title>
+    <title>Crea Stanza</title>
     <style>
         @font-face {
             font-family: 'NTLG';
-            src: url('Assets/Font/NTLG.woff2') format('woff2');
-            font-display: block; /* Forza l'attesa del font */
+            src: url('NTLG.woff2') format('woff2');
+            font-display: block;
         }
         
         body {
@@ -24,7 +24,7 @@
         #audioButton {
             padding: 15px 30px;
             font-size: 18px;
-            font-family: 'NTLG'; /* Solo il font custom */
+            font-family: 'NTLG';
             color: white;
             background-color: #010102;
             border: 2px solid #484848;
@@ -34,7 +34,7 @@
             outline: none;
             position: relative;
             letter-spacing: 0.5px;
-            text-transform: uppercase; /* Forza maiuscolo */
+            text-transform: none; /* Testo normale */
         }
         
         #audioButton:hover {
@@ -47,7 +47,7 @@
     </style>
 </head>
 <body>
-    <button id="audioButton">RIPRODUCI</button>
+    <button id="audioButton">Crea Stanza</button>
 
     <audio id="audioPlayer" src="Assets/Sound/enter.wav"></audio>
 
@@ -59,9 +59,9 @@
             audioPlayer.currentTime = 0;
             audioPlayer.play().catch(e => console.log("Audio error:", e));
             
-            // Aggiunge classe temporanea per feedback visivo
-            this.classList.add('active-click');
-            setTimeout(() => this.classList.remove('active-click'), 200);
+            // Effetto click temporaneo
+            this.style.boxShadow = '0 0 0 2px #0091ff';
+            setTimeout(() => this.style.boxShadow = 'none', 150);
         });
     </script>
 </body>
