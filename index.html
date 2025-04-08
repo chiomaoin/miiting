@@ -31,14 +31,13 @@
             z-index: 1;
         }
 
-        /* Nuovo elemento per oscurare lo sfondo dietro l'overlay */
         .background-darkener {
             position: absolute;
             bottom: 0;
             width: 100%;
             height: 42%;
-            background: rgba(0, 0, 0, 0.3); /* Scurisce lo sfondo */
-            z-index: 1.5; /* Sopra lo sfondo ma sotto l'overlay */
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1.5;
         }
 
         .overlay {
@@ -56,13 +55,13 @@
             font-size: 1.1rem;
             position: absolute;
             top: 25px;
-            right: 50px;
+            right: 70px; <!-- Aumentato da 60px a 70px (più a sinistra) -->
         }
     </style>
 </head>
 <body>
     <div class="background-image"></div>
-    <div class="background-darkener"></div> <!-- Nuovo elemento -->
+    <div class="background-darkener"></div>
     <div class="overlay">
         <div class="disclaimer"><strong>Questo sito non è affiliato con Nintendo</strong></div>
     </div>
