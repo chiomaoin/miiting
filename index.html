@@ -31,21 +31,12 @@
             z-index: 1;
         }
 
-        .background-darkener {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 42%;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 1.5;
-        }
-
         .overlay {
             position: absolute;
             bottom: 0;
             width: 100%;
             height: 42%;
-            background-color: rgba(128, 128, 128, 0.11);
+            background-color: rgba(20, 20, 20, 0.55); /* Overlay più scuro */
             z-index: 2;
         }
 
@@ -55,13 +46,12 @@
             font-size: 1.1rem;
             position: absolute;
             top: 25px;
-            right: 70px; <!-- Aumentato da 60px a 70px (più a sinistra) -->
+            right: 70px;
         }
     </style>
 </head>
 <body>
     <div class="background-image"></div>
-    <div class="background-darkener"></div>
     <div class="overlay">
         <div class="disclaimer"><strong>Questo sito non è affiliato con Nintendo.</strong></div>
     </div>
